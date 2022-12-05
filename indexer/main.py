@@ -3,6 +3,7 @@ import os
 from json import loads, load, dump
 from kafka import KafkaConsumer
 
+import uploader
 
 if __name__ == "__main__":
     topics = ['investing-events', 'instaforex-events']
@@ -37,4 +38,5 @@ if __name__ == "__main__":
             dump(authorIDs, jsonFile)
             jsonFile.truncate()
 
+            uploader.update_row(articleInfo)
         print("Uploaded entry successfully!")
