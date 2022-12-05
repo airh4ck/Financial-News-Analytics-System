@@ -2,6 +2,7 @@ from json import loads
 from kafka import KafkaConsumer
 
 import analyze
+import uploader
 
 if __name__ == "__main__":
     topics = ['investing-events', 'instaforex-events']
@@ -18,3 +19,4 @@ if __name__ == "__main__":
         articleInfo = entry.value
         print(articleInfo['link'])
         articleInfo['sentiment'] = analyze.predict(articleInfo['text'])[0]
+        uploader.update_row(articleInfo)
