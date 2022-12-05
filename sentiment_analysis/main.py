@@ -1,16 +1,20 @@
-import JSONParse
+from json import loads
+from kafka import KafkaConsumer
+
 import analyze
 
-
-def main():
-    # TODO Integrate with Apache Kafka
-    articleInfo = None
-    with open("sample.json", 'r') as f:
-        articleInfo = f.read()
-
-    # TODO send the result to the database
-    print(analyze.predict(JSONParse.getArticleFrom(articleInfo)))
-
-
 if __name__ == "__main__":
-    main()
+    topics = ['investing-events', 'instaforex-events']
+    consumer = KafkaConsumer(
+        *topics,
+        bootstrap_servers=['kafka:29092'],
+        auto_offset_reset='latest',
+        enable_auto_commit=True,
+        group_id='sentiment_consumer',
+        value_deserializer=lambda x: loads(x.decode('utf-8'))
+    )
+
+    for entry in consumer:
+        articleInfo = entry.value
+        print(articleInfo['link'])
+        articleInfo['sentiment'] = analyze.predict(articleInfo['text'])[0]
