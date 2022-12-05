@@ -2,6 +2,7 @@ from json import loads
 from kafka import KafkaConsumer
 
 from summarize import summarize
+import uploader
 
 
 def main():
@@ -21,6 +22,7 @@ def main():
         articleInfo['summary'] = summarize(articleInfo['text'])
         print(articleInfo['summary'])
 
+        uploader.update_row(articleInfo)
 
         # print("Uploaded entry successfully! ")
 
