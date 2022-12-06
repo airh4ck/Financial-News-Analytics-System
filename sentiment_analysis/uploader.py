@@ -1,12 +1,12 @@
 import os
 
-import sqlite3
+import psycopg2
 
 
 def create_connection(dbFile):
     connection = None
     try:
-        connection = sqlite3.connect(dbFile)
+        connection = psycopg2.connect(dbFile)
     except Exception as error:
         print(error)
 
@@ -17,7 +17,7 @@ def create_row(connection, row, pair):
     cursor = connection.cursor()
     cursor.execute(
         f'''INSERT INTO {pair} ({', '.join(list(row.keys()))})
-            VALUES ({', '.join('?' for i in range(len(list(row.values()))))})''',
+            VALUES ({', '.join(f'${i}' for i in range(len(list(row.values()))))})''',
         list(row.values())
     )
 
@@ -42,7 +42,7 @@ def update_row(row):
 
     cursor.execute(
         f'''UPDATE {pair}
-            SET {', '.join(f"{key} = ?" for key, value in row.items())}
+            SET {', '.join(f"{key} = ${i}" for i, key in enumerate(row))}
             WHERE link = \'{row['link']}\'''',
         list(row.values())
     )
