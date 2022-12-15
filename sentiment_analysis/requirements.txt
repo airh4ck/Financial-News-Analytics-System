@@ -1,2 +1,4 @@
 kafka-python
 transformers
+python-dotenv
+psycopg2

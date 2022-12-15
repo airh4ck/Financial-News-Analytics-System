@@ -1,12 +1,20 @@
 import os
 
 import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-def create_connection(dbFile):
+def create_connection(pg_database):
     connection = None
     try:
-        connection = psycopg2.connect(dbFile)
+        connection = psycopg2.connect(
+            dbname=pg_database,
+            user=os.getenv("DATABASE_USERNAME"),
+            password=os.getenv("DATABASE_PASSWORD"),
+            host="http://158.160.10.64"
+        )
     except Exception as error:
         print(error)
 
@@ -17,7 +25,7 @@ def create_row(connection, row, pair):
     cursor = connection.cursor()
     cursor.execute(
         f'''INSERT INTO {pair} ({', '.join(list(row.keys()))})
-            VALUES ({', '.join(f'${i}' for i in range(len(list(row.values()))))})''',
+            VALUES ({', '.join(f'%s' for i in range(len(list(row.values()))))})''',
         list(row.values())
     )
 
@@ -25,9 +33,7 @@ def create_row(connection, row, pair):
 
 
 def update_row(row):
-    dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, 'database/database.db')
-    connection = create_connection(filename)
+    connection = create_connection("pg_database")
 
     cursor = connection.cursor()
 

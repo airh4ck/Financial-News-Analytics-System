@@ -4,6 +4,10 @@ COPY . /app
 
 
 # RUN apt-get update -y
+RUN apt update
+RUN apt upgrade -y
+RUN apt -y install libpq-dev gcc
+
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 SHELL [ "/bin/bash", "-c" ]
