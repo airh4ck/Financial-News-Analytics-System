@@ -1,0 +1,4 @@
+beautifulsoup4==4.11.1
+cloudscraper==1.2.65
+kafka-python==2.0.2
+pandas==1.5.1
