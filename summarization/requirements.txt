@@ -1,3 +1,5 @@
 kafka-python==2.0.2
 transformers==4.24.0
 SentencePiece
+python-dotenv
+psycopg2
