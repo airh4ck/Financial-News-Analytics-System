@@ -1,23 +1,25 @@
 from transformers import MBartTokenizer, MBartForConditionalGeneration
 
+model_name = "IlyaGusev/mbart_ru_sum_gazeta"
 
-def summarize(articleText: str) -> str:
-    modelName = "IlyaGusev/mbart_ru_sum_gazeta"
-    tokenizer = MBartTokenizer.from_pretrained(modelName)
-    model = MBartForConditionalGeneration.from_pretrained(modelName)
+def create_tokenizer():
+    return MBartTokenizer.from_pretrained(model_name)
 
-    inputIDs = tokenizer(
-        [articleText],
+def create_model():
+    return MBartForConditionalGeneration.from_pretrained(model_name)
+
+def summarize(article_text, tokenizer, model):
+    input_ids = tokenizer(
+        [article_text],
         max_length=600,
-        padding="max_length",
         truncation=True,
         return_tensors="pt",
     )["input_ids"]
 
-    outputIDs = model.generate(
-        input_ids=inputIDs,
+    output_ids = model.generate(
+        input_ids=input_ids,
         no_repeat_ngram_size=4
     )[0]
 
-    summary = tokenizer.decode(outputIDs, skip_special_tokens=True)
+    summary = tokenizer.decode(output_ids, skip_special_tokens=True)
     return summary

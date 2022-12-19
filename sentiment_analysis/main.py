@@ -15,8 +15,11 @@ if __name__ == "__main__":
         value_deserializer=lambda x: loads(x.decode('utf-8'))
     )
 
+    tokenizer = analyze.create_tokenizer()
+    model = analyze.create_model()
+
     for entry in consumer:
         articleInfo = entry.value
         print(articleInfo['link'])
-        articleInfo['sentiment'] = analyze.predict(articleInfo['text'])[0]
+        articleInfo['sentiment'] = analyze.predict(articleInfo['text'], tokenizer, model)[0]
         uploader.update_row(articleInfo)
