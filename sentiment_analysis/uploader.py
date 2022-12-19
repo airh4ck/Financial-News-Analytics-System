@@ -1,10 +1,6 @@
 import os
 
 import psycopg2
-from dotenv import load_dotenv
-
-load_dotenv()
-
 
 def create_connection(pg_database):
     connection = None
