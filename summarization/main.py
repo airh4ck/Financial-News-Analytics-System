@@ -6,7 +6,7 @@ import uploader
 
 
 def main():
-    topics = ['investing-events', 'instaforex-events']
+    topics = ['analytical-articles']
     consumer = KafkaConsumer(
         *topics,
         bootstrap_servers=['kafka:29092'],

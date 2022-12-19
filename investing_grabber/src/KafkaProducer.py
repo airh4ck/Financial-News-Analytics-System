@@ -8,6 +8,6 @@ def uploadData(data):
                              dumps(x).encode('utf-8'))
 
     for entry in data:
-        producer.send('investing-events', value=entry)
+        producer.send('analytical-articles', value=entry)
 
     print("Uploaded data to Kafka topic.")

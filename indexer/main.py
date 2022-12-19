@@ -6,7 +6,7 @@ from kafka import KafkaConsumer
 import uploader
 
 if __name__ == "__main__":
-    topics = ['investing-events', 'instaforex-events']
+    topics = ['analytical-articles']
     consumer = KafkaConsumer(
         *topics,
         bootstrap_servers=['kafka:29092'],

@@ -1,9 +1,5 @@
-FROM ubuntu
+FROM python:3.9.15
 COPY . /app
-
-RUN apt-get update -y
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
 
 RUN pip3 install -r /app/requirements.txt
 

@@ -10,6 +10,6 @@ def uploadData(data):
     currency = data['pair']
     data['pair'] = currency[:3] + "_" + currency[3:]
     
-    producer.send('instaforex-events', value=data)
+    producer.send('analytical-articles', value=data)
 
     print("Uploaded data to Kafka topic.")
