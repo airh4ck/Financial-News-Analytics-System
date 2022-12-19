@@ -1,6 +1,13 @@
 import os
 
 import psycopg2
+import numpy
+from psycopg2.extensions import register_adapter, AsIs
+
+def adapt_numpy_int64(numpy_int64):
+    return AsIs(numpy_int64)
+
+register_adapter(numpy.int64, adapt_numpy_int64)
 
 def create_connection(pg_database):
     connection = None
