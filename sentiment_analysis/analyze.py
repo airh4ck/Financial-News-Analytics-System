@@ -2,14 +2,17 @@ import torch
 from transformers import AutoModelForSequenceClassification
 from transformers import BertTokenizerFast
 
-tokenizer = BertTokenizerFast.from_pretrained(
-    'blanchefort/rubert-base-cased-sentiment')
-model = AutoModelForSequenceClassification.from_pretrained(
-    'blanchefort/rubert-base-cased-sentiment', return_dict=True)
+
+def create_tokenizer():
+    return BertTokenizerFast.from_pretrained('blanchefort/rubert-base-cased-sentiment')
+
+
+def create_model():
+    return AutoModelForSequenceClassification.from_pretrained('blanchefort/rubert-base-cased-sentiment', return_dict=True)
 
 
 @torch.no_grad()
-def predict(text):
+def predict(text, tokenizer, model):
     inputs = tokenizer(text, max_length=512, padding=True,
                        truncation=True, return_tensors='pt')
     outputs = model(**inputs)
