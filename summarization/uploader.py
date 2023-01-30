@@ -6,7 +6,7 @@ def create_connection(pg_database):
     connection = None
     try:
         connection = psycopg2.connect(
-            dbname=pg_database,
+            dbname=os.getenv("DATABASE_NAME"),
             user=os.getenv("DATABASE_USERNAME"),
             password=os.getenv("DATABASE_PASSWORD"),
             host="http://158.160.10.64"
