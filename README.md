@@ -54,6 +54,8 @@ services:
     shm_size: 2g
     ports:
       - 4444:4444
+
+  # Grabber for instaforex.com
   instaforex_parser:
     image: airh4ck/instaforex_parser
     depends_on:
@@ -61,36 +63,43 @@ services:
       - kafka
       - selenium
 
+  # Grabber for investing.com
   investing_parser:
     image: airh4ck/investing_parser
     depends_on:
       - zookeeper
       - kafka
 
+  # Author indexing microservice
   indexer:
     restart: always
     image: airh4ck/indexer
     depends_on:
       - kafka
     environment:
+      - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
+  # Sentiment analysis microservice
   sentiment_analysis:
     restart: always
     image: airh4ck/sentiment_analysis
     depends_on:
       - kafka
     environment:
+      - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
+  # Summarization microservice
   summarization:
     restart: always
     image: airh4ck/summarization
     depends_on:
       - kafka
     environment:
+      - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
 ```
